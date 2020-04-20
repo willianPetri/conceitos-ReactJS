@@ -17,7 +17,7 @@ function App() {
     const response = await api.post('repositories', {
       title: `Novo repositorio ${Date.now()}`,
       url: 'https://github.com/willianPetri',
-      techs: 'Node, ReactJS, React Native, PHP'
+      techs: ['Node', 'ReactJS', 'React Native']
     });
 
     const repository = response.data;
@@ -26,23 +26,21 @@ function App() {
   }
 
   async function handleRemoveRepository(id) {
-    try{
-      await api.delete(`repositories/${id}`);
+    await api.delete(`repositories/${id}`);
 
-      setRepositories(repositories.filter(repository => repository.id !== id));
-    }catch(err){
-      alert('Error Delete');
-    }
+    setRepositories(repositories.filter(repository => repository.id !== id));
   }
 
   return (
     <div>
       <ul data-testid="repository-list">
-          {repositories.map(repository => <li key={repository.id}>{repository.title}
-            <button onClick={() => handleRemoveRepository(repository.id)}>
-              Remover
-            </button>
-          </li>)}
+          {repositories.map(repository => (
+            <li key={repository.id}>{repository.title}
+              <button onClick={() => handleRemoveRepository(repository.id)}>
+                Remover
+              </button>
+            </li>
+          ))}
         
 
       </ul>
